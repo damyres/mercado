@@ -1,18 +1,11 @@
-package lista.supermercado.entities;
+package lista.supermercado.dtos;
 
-import jakarta.persistence.*;
+import lista.supermercado.entities.Produto;
 
-import java.io.Serializable;
 import java.util.UUID;
 
-@Entity
-@Table(name = "PRODUTOS")
-public class Produto implements Serializable {
+public class ProdutoDTO {
 
-    private static final long serialVersionUID = 1l;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private String nome;
@@ -23,8 +16,16 @@ public class Produto implements Serializable {
 
     private Integer quantidade;
 
-    public Produto() {
+    public ProdutoDTO() {
 
+    }
+
+    public ProdutoDTO(Produto produto) {
+        this.id = produto.getId();
+        this.nome = produto.getNome();
+        this.descricao = produto.getDescricao();
+        this.preco = produto.getPreco();
+        this.quantidade = produto.getQuantidade();
     }
 
     public UUID getId() {
@@ -33,6 +34,17 @@ public class Produto implements Serializable {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public ProdutoDTO(String descricao, Double preco) {
+        this.descricao = descricao;
+        this.preco = preco;
+    }
+
+    public ProdutoDTO(String nome, String descricao, Double preco) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.preco = preco;
     }
 
     public String getNome() {
