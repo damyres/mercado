@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/V1__create-table-produto.sql
+
