@@ -1,6 +1,9 @@
 package lista.supermercado.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -15,12 +18,16 @@ public class Produto implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotBlank
     private String nome;
 
+    @NotBlank
     private String descricao;
 
+    @NotNull
     private Double preco;
 
+    @NotNull
     private Integer quantidade;
 
     public Produto() {

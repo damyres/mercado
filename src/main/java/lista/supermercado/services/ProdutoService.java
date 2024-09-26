@@ -1,11 +1,16 @@
 package lista.supermercado.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import lista.supermercado.dtos.ProdutoDTO;
 import lista.supermercado.entities.Produto;
+import lista.supermercado.exception.MercadoException;
 import lista.supermercado.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,18 +51,18 @@ public class ProdutoService {
     public ProdutoDTO update(final Produto produto) {
         final var produtoDaBase = produtoRepository.findById(produto.getId());
         if (produtoDaBase.isEmpty()) {
-            throw new RuntimeException("Produto não encontado.");
+            throw new RuntimeException("Produto não encontrado.");
         }
         produtoDaBase.get().setNome(produto.getNome());
         produtoDaBase.get().setDescricao(produto.getDescricao());
         produtoDaBase.get().setPreco(produto.getPreco());
         produtoDaBase.get().setQuantidade(produto.getQuantidade());
-        final var produtoAtualizado =  produtoRepository.saveAndFlush(produtoDaBase.get());
+        final var produtoAtualizado = produtoRepository.saveAndFlush(produtoDaBase.get());
         return new ProdutoDTO(produtoAtualizado);
     }
 
-    public void deleteById(UUID id){
-        produtoRepository.findById(id).orElseThrow(() -> new RuntimeException("Produto não encontado."));
+    public void deleteById(UUID id) {
+        produtoRepository.findById(id).orElseThrow(() -> new MercadoException("Produto não encontrado."));
         produtoRepository.deleteById(id);
     }
 
